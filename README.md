@@ -1,33 +1,29 @@
 # BlindHat
 
 ## Overview
-This application provides an intelligent navigation system with real-time object detection and routing capabilities, designed to assist users in navigating through an environment while detecting potential obstacles.
+An intelligent navigation system using real-time object detection and routing to assist users in navigating environments while detecting potential obstacles.
 
 ## Features
 - Real-time navigation routing
-- Object detection using YOLOv8
+- YOLOv8 object detection
 - Dynamic route recalculation
 - Obstacle identification
 - Distance and direction guidance
 
 ## Prerequisites
 - Python 3.8+
-- Flask
-- OpenCV
-- PyTorch
-- Ultralytics YOLO
-- OSMnx
-- CUDA (optional, but recommended for GPU acceleration)
+- Flask, OpenCV, PyTorch
+- Ultralytics YOLO, OSMnx
+- CUDA (optional)
 
 ## Installation
-
-1. Clone the repository:
+1. Clone repository:
 ```bash
 git clone https://github.com/iot-lab-kiit/BlindHat.git
 cd BlindHat-main
 ```
 
-2. Create a virtual environment:
+2. Create virtual environment:
 ```bash
 conda create -n BlindHatEnv
 conda activate BlindHatEnv
@@ -38,13 +34,7 @@ conda activate BlindHatEnv
 pip install -r requirements.txt
 ```
 
-## Configuration
-- Pre-configured with a default destination coordinate (KP 6)
-- Supports CUDA for GPU-accelerated object detection
-- Uses YOLOv8s model for object detection
-
 ## API Endpoints
-
 ### `/start_navigation`
 - **Method**: POST
 - **Payload**: 
@@ -55,7 +45,6 @@ pip install -r requirements.txt
     "longitude": float
   }
   ```
-- **Description**: Initializes navigation route from current location to predefined destination
 
 ### `/detect`
 - **Method**: POST
@@ -68,29 +57,32 @@ pip install -r requirements.txt
     "image": "base64_encoded_image"
   }
   ```
-- **Returns**: 
-  - Navigation command
-  - Detected obstacles
-  - Current navigation step
 
 ## Running the Application
 ```bash
 python app.py
 ```
-The server will start on `0.0.0.0:5000`
+Server starts on `0.0.0.0:5000`
 
 ## Key Technologies
-- Flask for web server
-- OSMnx for routing
-- YOLOv8 for object detection
-- PyTorch for machine learning computations
+- Flask
+- OSMnx
+- YOLOv8
+- PyTorch
 
 ## Limitations
-- Requires internet connection for route calculation
-- Object detection accuracy depends on model and image quality
-- Currently hardcoded to a specific destination
+- Requires internet connection
+- Object detection accuracy varies
+- Hardcoded destination
 
 ## Acknowledgments
-- Ultralytics for YOLO
-- OSMnx for routing capabilities
+- Ultralytics
+- OSMnx
 - Flask community
+
+## License
+MIT License
+
+Copyright (c) 2024 IoT Lab KIIT
+
+Permission is granted to use, modify, and distribute this software freely.
