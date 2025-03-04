@@ -1,88 +1,142 @@
-# BlindHat
+# Blind Hat: Navigation Assistant for Visually Impaired
 
-## Overview
-An intelligent navigation system using real-time object detection and routing to assist users in navigating environments while detecting potential obstacles.
+## Description
+
+This project is a real-time navigation assistant that uses computer vision and GPS data to guide users to their destination while detecting and warning about obstacles. It's designed to run as a Flask server, potentially on a cloud platform with GPU support for efficient processing.
 
 ## Features
-- Real-time navigation routing
-- YOLOv8 object detection
-- Dynamic route recalculation
-- Obstacle identification
-- Distance and direction guidance
+
+- Real-time video processing for obstacle detection
+- GPS-based navigation with dynamic route recalculation
+- Text-to-speech audio instructions
+- Flask server for easy deployment and scalability
+
+## Technologies Used
+
+- Python 3.8+
+- Flask
+- OpenCV
+- PyTorch
+- YOLO (You Only Look Once) for object detection
+- OSMnx for route planning
+- pyttsx3 for text-to-speech conversion
+- Geocoder for GPS location
 
 ## Prerequisites
-- Python 3.8+
-- Flask, OpenCV, PyTorch
-- Ultralytics YOLO, OSMnx
-- CUDA (optional)
+
+- Python 3.8 or higher
+- CUDA-capable GPU (recommended for faster processing)
 
 ## Installation
-1. Clone repository:
-```bash
-git clone https://github.com/iot-lab-kiit/BlindHat.git
-cd BlindHat-main
-```
 
-2. Create virtual environment:
-```bash
-conda create -n BlindHatEnv
-conda activate BlindHatEnv
-```
+1. Clone the repository:
+   ```
+   git clone https://github.com/iot-lab-kiit/BlindHat.git
+   cd BlindHat-main
+   ```
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+2. Create a virtual environment (optional but recommended):
+   ```
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+3. Install the required packages:
+   ```
+   pip install -r requirements.txt
+   ```
+
+4. Download the YOLO model:
+   ```
+   wget https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5s.pt
+   ```
+
+## Usage
+
+1. Start the Flask server:
+   ```
+   python app.py
+   ```
+
+2. The server will start running on `http://0.0.0.0:5000`
+
+3. Use the following endpoints:
+   - `/video_feed`: GET request to receive the processed video stream
+   - `/audio_instructions`: GET request to receive the latest audio instruction
+   - `/update_gps`: POST request to update the current GPS location
 
 ## API Endpoints
-### `/start_navigation`
-- **Method**: POST
-- **Payload**: 
-  ```json
-  {
-    "device_id": "unique_device_identifier",
-    "latitude": float,
-    "longitude": float
-  }
-  ```
 
-### `/detect`
-- **Method**: POST
-- **Payload**:
-  ```json
-  {
-    "device_id": "unique_device_identifier",
-    "latitude": float,
-    "longitude": float,
-    "image": "base64_encoded_image"
-  }
-  ```
+### GET /video_feed
 
-## Running the Application
-```bash
-python app.py
+Returns a stream of JPEG images representing the processed video feed with obstacle detection.
+
+### GET /audio_instructions
+
+Returns the latest audio instruction as a JSON object.
+
+Response format:
 ```
-Server starts on `0.0.0.0:5000`
+{
+  "instruction": "Continue straight for 100 meters"
+}
+```
 
-## Key Technologies
-- Flask
-- OSMnx
-- YOLOv8
-- PyTorch
+### POST /update_gps
 
-## Limitations
-- Requires internet connection
-- Object detection accuracy varies
-- Hardcoded destination
+Updates the current GPS location.
 
-## Acknowledgments
-- Ultralytics
-- OSMnx
-- Flask community
+Request body:
+```
+{
+  "latitude": 20.348865,
+  "longitude": 85.816085
+}
+```
+
+Response:
+```
+{
+  "status": "success"
+}
+```
+
+## Deployment
+
+To deploy this on a cloud platform:
+
+1. Choose a cloud provider (AWS, Google Cloud, Azure, etc.)
+2. Set up a virtual machine with GPU support
+3. Install all necessary dependencies
+4. Copy the script to the cloud instance
+5. Run the Flask server on the cloud instance
+
+Ensure proper security measures (authentication, HTTPS) are implemented for cloud deployment.
+
+## Client-side Implementation
+
+For the client-side (e.g., mobile app), you need to:
+
+1. Capture video frames and send them to the server
+2. Periodically send GPS updates to the `/update_gps` endpoint
+3. Fetch and play audio instructions from the `/audio_instructions` endpoint
+4. Display the video feed from the `/video_feed` endpoint
+
+## Configuration
+
+The destination coordinates are currently hardcoded in the `process_frame` function. To change the destination, modify the following line:
+
+```
+destination = (20.348865, 85.816085)  # KP 6
+```
 
 ## License
-MIT License
 
-Copyright (c) 2024 IoT Lab KIIT
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-Permission is granted to use, modify, and distribute this software freely.
+## Acknowledgments
+
+- YOLOv5 by Ultralytics
+- OSMnx by Geoff Boeing
+- Flask team for the excellent web framework
+- OpenCV contributors
