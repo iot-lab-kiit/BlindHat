@@ -10,11 +10,11 @@
 
 ## ✨ Features
 
-- 🎯 **Real-time Obstacle Detection** with YOLOv8
-- 📍 **GPS-based Navigation** with dynamic route updates
-- 🗣️ **Text-to-Speech Voice Alerts** for instructions & warnings
-- 🌐 **RESTful Flask API** for integration with mobile or wearable clients
-- ⚙️ **GPU Acceleration Support** for high-performance processing
+- **Real-time Obstacle Detection** with YOLOv8
+- **GPS-based Navigation** with dynamic route updates
+- **Text-to-Speech Voice Alerts** for instructions & warnings
+- **RESTful Flask API** for integration with mobile or wearable clients
+- **GPU Acceleration Support** for high-performance processing
 
 ---
 
