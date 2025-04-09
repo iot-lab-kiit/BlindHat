@@ -1,4 +1,4 @@
-# 🧢 Blind Hat: Navigation Assistant for the Visually Impaired
+# Blind Hat: Navigation Assistant for the Visually Impaired
 
 ## 🧭 Description
 
