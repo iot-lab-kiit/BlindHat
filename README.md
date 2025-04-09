@@ -93,7 +93,7 @@ Response:
 ---
 
 ### 📍 `POST /update_gps`
-- 📍 Updates the current location for route planning.
+- Updates the current location for route planning.
 
 Request:
 ```json
