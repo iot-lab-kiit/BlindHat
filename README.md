@@ -1,142 +1,162 @@
-# Blind Hat: Navigation Assistant for Visually Impaired
+# 🧢 Blind Hat: Navigation Assistant for the Visually Impaired
 
-## Description
+## 🧭 Description
 
-This project is a real-time navigation assistant that uses computer vision and GPS data to guide users to their destination while detecting and warning about obstacles. It's designed to run as a Flask server, potentially on a cloud platform with GPU support for efficient processing.
+**Blind Hat** is a real-time smart navigation assistant 🦯 that helps visually impaired individuals by guiding them safely using computer vision and GPS. It uses advanced obstacle detection and voice-based instructions to help users move confidently and independently.
 
-## Features
+🌐 Powered by a Flask server, the system runs locally or on GPU-enabled cloud platforms for real-time performance.
 
-- Real-time video processing for obstacle detection
-- GPS-based navigation with dynamic route recalculation
-- Text-to-speech audio instructions
-- Flask server for easy deployment and scalability
+---
 
-## Technologies Used
+## ✨ Features
 
-- Python 3.8+
-- Flask
-- OpenCV
-- PyTorch
-- YOLO (You Only Look Once) for object detection
-- OSMnx for route planning
-- pyttsx3 for text-to-speech conversion
-- Geocoder for GPS location
+- 🎯 **Real-time Obstacle Detection** with YOLOv8
+- 📍 **GPS-based Navigation** with dynamic route updates
+- 🗣️ **Text-to-Speech Voice Alerts** for instructions & warnings
+- 🌐 **RESTful Flask API** for integration with mobile or wearable clients
+- ⚙️ **GPU Acceleration Support** for high-performance processing
 
-## Prerequisites
+---
 
-- Python 3.8 or higher
-- CUDA-capable GPU (recommended for faster processing)
+## 🛠️ Technologies Used
 
-## Installation
+| Tech | Purpose |
+|------|---------|
+| 🐍 Python 3.8+ | Backend & core logic |
+| 🔥 PyTorch | Deep learning model (YOLOv8) |
+| 📷 OpenCV | Video frame processing |
+| 🧠 YOLOv8 | Object detection |
+| 🌐 Flask | Web server & APIs |
+| 🗺️ OSMnx | Route planning & shortest path |
+| 🗣️ pyttsx3 | Text-to-speech |
+| 📡 Geocoder | Location via IP |
 
-1. Clone the repository:
-   ```
+---
+
+## 🚀 Installation
+
+1. 🔁 **Clone the Repository**
+   ```bash
    git clone https://github.com/iot-lab-kiit/BlindHat.git
    cd BlindHat-main
    ```
 
-2. Create a virtual environment (optional but recommended):
-   ```
+2. 🧪 **(Optional)** Create a virtual environment
+   ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   source venv/bin/activate  # Windows: venv\Scripts\activate
    ```
 
-3. Install the required packages:
-   ```
+3. 📦 **Install Dependencies**
+   ```bash
    pip install -r requirements.txt
    ```
 
-4. Download the YOLO model:
-   ```
-   wget https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5s.pt
+4. 📥 **Download YOLOv8 Model**
+   ```bash
+   wget https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8s.pt
    ```
 
-## Usage
+---
 
-1. Start the Flask server:
-   ```
+## ▶️ Usage
+
+1. 🧠 Start the Flask server:
+   ```bash
    python app.py
    ```
 
-2. The server will start running on `http://0.0.0.0:5000`
+2. 🌐 Access the server at:
+   ```
+   http://0.0.0.0:5000
+   ```
 
-3. Use the following endpoints:
-   - `/video_feed`: GET request to receive the processed video stream
-   - `/audio_instructions`: GET request to receive the latest audio instruction
-   - `/update_gps`: POST request to update the current GPS location
+---
 
-## API Endpoints
+## 📡 API Endpoints
 
-### GET /video_feed
+### 🎥 `GET /video_feed`
+- 📤 Returns a real-time video stream (JPEG-encoded) with obstacle detection.
 
-Returns a stream of JPEG images representing the processed video feed with obstacle detection.
+---
 
-### GET /audio_instructions
+### 🔊 `GET /audio_instructions`
+- 📥 Returns the latest voice instruction.
 
-Returns the latest audio instruction as a JSON object.
-
-Response format:
-```
+📦 Response:
+```json
 {
   "instruction": "Continue straight for 100 meters"
 }
 ```
 
-### POST /update_gps
+---
 
-Updates the current GPS location.
+### 📍 `POST /update_gps`
+- 📍 Updates the current location for route planning.
 
-Request body:
-```
+📤 Request:
+```json
 {
   "latitude": 20.348865,
   "longitude": 85.816085
 }
 ```
 
-Response:
-```
+📦 Response:
+```json
 {
   "status": "success"
 }
 ```
 
-## Deployment
+---
 
-To deploy this on a cloud platform:
+## ☁️ Deployment
 
-1. Choose a cloud provider (AWS, Google Cloud, Azure, etc.)
-2. Set up a virtual machine with GPU support
-3. Install all necessary dependencies
-4. Copy the script to the cloud instance
-5. Run the Flask server on the cloud instance
+1. 💻 Choose a cloud provider (AWS, GCP, Azure)
+2. 🚀 Spin up a GPU-enabled VM (CUDA supported)
+3. 📦 Install dependencies & upload the project
+4. 🧠 Run the Flask server:
+   ```bash
+   python app.py
+   ```
+5. 🔒 Ensure secure access with HTTPS & authentication for production use
 
-Ensure proper security measures (authentication, HTTPS) are implemented for cloud deployment.
+---
 
-## Client-side Implementation
+## 📱 Client-Side Integration
 
-For the client-side (e.g., mobile app), you need to:
+To use Blind Hat from a client device like a mobile app or wearable:
 
-1. Capture video frames and send them to the server
-2. Periodically send GPS updates to the `/update_gps` endpoint
-3. Fetch and play audio instructions from the `/audio_instructions` endpoint
-4. Display the video feed from the `/video_feed` endpoint
+- 📷 Send captured video frames to the server
+- 📍 Periodically update the GPS coordinates via `/update_gps`
+- 🔉 Fetch & play audio alerts from `/audio_instructions`
+- 📡 Stream processed video from `/video_feed`
 
-## Configuration
+---
 
-The destination coordinates are currently hardcoded in the `process_frame` function. To change the destination, modify the following line:
+## ⚙️ Configuration
 
-```
+The destination coordinates are currently hardcoded in `process_frame()`:
+
+```python
 destination = (20.348865, 85.816085)  # KP 6
 ```
 
-## License
+📍 Update this line to change the navigation destination.
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+---
 
-## Acknowledgments
+## 📄 License
 
-- YOLOv5 by Ultralytics
-- OSMnx by Geoff Boeing
-- Flask team for the excellent web framework
-- OpenCV contributors
+📝 Licensed under the MIT License. See [LICENSE.md](LICENSE.md) for full details.
+
+---
+
+## 🙌 Acknowledgments
+
+- 🧠 YOLOv8 by [Ultralytics](https://github.com/ultralytics/yolov5)
+- 🗺️ OSMnx by Geoff Boeing
+- ❤️ Flask team for their minimalistic web framework
+- 👁️ OpenCV community for making vision accessible
